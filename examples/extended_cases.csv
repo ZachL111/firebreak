@@ -1,0 +1,7 @@
+name,demand,capacity,latency,risk,weight,score,decision,reason
+baseline,63,87,20,13,9,69,review,security tooling baseline scenario exercises the review path for bounded failure handling
+pressure,83,71,25,22,8,7,review,security tooling pressure scenario exercises the review path for bounded failure handling
+surge,102,100,19,17,13,148,review,security tooling surge scenario exercises the review path for bounded failure handling
+degraded,64,62,32,28,5,-119,review,security tooling degraded scenario exercises the review path for bounded failure handling
+recovery,89,104,22,12,10,140,review,security tooling recovery scenario exercises the review path for bounded failure handling
+boundary,76,79,21,17,7,49,review,security tooling boundary scenario exercises the review path for bounded failure handling
