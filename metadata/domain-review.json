@@ -1,0 +1,73 @@
+{
+  "repo": "firebreak",
+  "language": "C#",
+  "category": "Security tooling",
+  "goal": "Model firewall rule precedence and explainable allow-deny decisions.",
+  "review_model": {
+    "terms": [
+      "trust boundary",
+      "claim drift",
+      "replay exposure",
+      "policy width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "trust boundary",
+      "signal": 51,
+      "slack": 38,
+      "drag": 25,
+      "confidence": 71,
+      "score": 136,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "claim drift",
+      "signal": 49,
+      "slack": 43,
+      "drag": 10,
+      "confidence": 51,
+      "score": 162,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "replay exposure",
+      "signal": 62,
+      "slack": 43,
+      "drag": 9,
+      "confidence": 71,
+      "score": 211,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "policy width",
+      "signal": 51,
+      "slack": 41,
+      "drag": 29,
+      "confidence": 64,
+      "score": 120,
+      "lane": "watch"
+    },
+    {
+      "name": "stale",
+      "focus": "trust boundary",
+      "signal": 67,
+      "slack": 45,
+      "drag": 28,
+      "confidence": 87,
+      "score": 182,
+      "lane": "ship"
+    }
+  ]
+}

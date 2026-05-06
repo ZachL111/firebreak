@@ -1,68 +1,40 @@
 # firebreak
 
-`firebreak` is a C# project for Security tooling. It turns model firewall rule precedence and explainable allow-deny decisions into a small local model with readable fixtures and a direct verification command.
+`firebreak` is a C# project in security tooling. Its focus is to model firewall rule precedence and explainable allow-deny decisions.
 
-## Reading Firebreak
+## Use Case
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+This is intentionally local and self-contained so it can be inspected without credentials, services, or seeded history.
 
-## Purpose
+## Firebreak Review Notes
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+Start with `replay exposure` and `policy width`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Fixture Notes
+## Highlights
 
-The examples are meant to be readable before they are exhaustive. They cover enough variation to show how latency and risk can pull a decision below the threshold.
+- `fixtures/domain_review.csv` adds cases for trust boundary and claim drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/firebreak-walkthrough.md` walks through the case spread.
+- The C# code includes a review path for `replay exposure` and `policy width`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Design Sketch
+## Code Layout
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The C# code keeps the core model in a small static API and runs checks through the executable path.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `trust boundary`, `claim drift`, `replay exposure`, and `policy width`.
 
-## What It Does
+The added C# path is deliberately direct, with fixtures doing most of the explaining.
 
-- Models trust boundaries with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep policy checks changes visible in code review.
-- Includes extended examples for replay guards, including `surge` and `degraded`.
-- Documents claim validation tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-
-## Usage
+## Run The Check
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Regression Path
 
-## Verification
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Future Work
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Files Worth Reading
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Next Directions
-
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add one more security tooling fixture that focuses on a malformed or borderline input.
-
-## Limits
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Setup
-
-Install C# and run the commands from the repository root. The project does not need credentials or a hosted service.
+The fixture set is small enough to audit by hand. The next useful expansion is malformed input coverage, not extra surface area.

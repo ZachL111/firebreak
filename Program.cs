@@ -3,6 +3,7 @@ using Firebreak;
 if (args.Contains("--test"))
 {
     PolicyTests.Run();
+    DomainReviewTests.Run();
     return;
 }
 
